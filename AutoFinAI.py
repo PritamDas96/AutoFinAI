@@ -205,20 +205,23 @@ index.add(np.array(vectors))
 # ✅ Step 3: Integrate TinyLlama for AI-Powered Financial Insights
 # ================================================
 
-
-# ✅ Load model without `device_map` (Fixes Accelerate Error)
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+model_name = "HuggingFaceH4/zephyr-7b-beta"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-device = "cpu"  # Streamlit Cloud only supports CPU
+device = "cpu"  # Force CPU usage on Streamlit Cloud
 
-# Load model with CPU optimization
-model = AutoModelForCausalLM.from_pretrained(
-    model_name,
-    trust_remote_code=True  # Fixes missing class errors
-).to(device)
+# Load model safely with error handling
+try:
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        trust_remote_code=True
+    ).to(device)
+except Exception as e:
+    print(f"⚠️ Model loading failed: {e}")
+    model = None  # Prevent Streamlit from crashing
+
 
 
 
