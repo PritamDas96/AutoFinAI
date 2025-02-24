@@ -142,7 +142,6 @@ print(f"🧠 Insight: {insight2}")
 
 #-----------------------------------------------------------------------------------------------------------------------
 
-!pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 import yfinance as yf
 import faiss
 import numpy as np
