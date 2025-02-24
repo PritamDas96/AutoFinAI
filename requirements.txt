@@ -1,0 +1,9 @@
+streamlit
+torch
+transformers
+sentencepiece
+accelerate
+faiss-cpu
+numpy
+pandas
+yfinance
