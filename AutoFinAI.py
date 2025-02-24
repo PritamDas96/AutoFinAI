@@ -206,7 +206,8 @@ index.add(np.array(vectors))
 # ================================================
 
 # ✅ Load TinyLlama (No Approval Needed)
-model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+model_name = "TheBloke/TinyMistral-248M-Chat-GGUF"
+
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 # ✅ Detect device properly
