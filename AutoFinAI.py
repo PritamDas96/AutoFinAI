@@ -214,17 +214,31 @@ device = "cpu"
 print(f"✅ Using device: {device}")
 
 # ✅ Load model without `device_map` (Fixes Accelerate Error)
-from transformers import BitsAndBytesConfig
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
-bnb_config = BitsAndBytesConfig(
-    load_in_8bit=True  # Enables 8-bit model loading
-)
+model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-model = AutoModelForCausalLM.from_pretrained(
-    model_name,
-    quantization_config=bnb_config,
-    device_map="auto"
-).to(device)
+# Detect if GPU is available
+device = "cuda" if torch.cuda.is_available() else "cpu"
+
+# Load model correctly for CPU (No 8-bit quantization on CPU)
+if device == "cuda":
+    from transformers import BitsAndBytesConfig
+    
+    bnb_config = BitsAndBytesConfig(
+        load_in_8bit=True  # 8-bit quantization for GPU only
+    )
+    
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        quantization_config=bnb_config,
+        device_map="auto"
+    ).to(device)
+else:
+    # Load model normally for CPU
+    model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
+
 
 
 def generate_response(prompt):
