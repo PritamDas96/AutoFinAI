@@ -210,7 +210,7 @@ model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 # ✅ Detect device properly
-device = "cuda" if torch.cuda.is_available() else "cpu"
+device = "cpu"
 print(f"✅ Using device: {device}")
 
 # ✅ Load model without `device_map` (Fixes Accelerate Error)
