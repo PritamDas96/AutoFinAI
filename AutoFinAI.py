@@ -207,7 +207,8 @@ index.add(np.array(vectors))
 
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-model_name = "HuggingFaceH4/zephyr-7b-beta"
+model_name = "HuggingFaceH4/zephyr-3b"
+
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 device = "cpu"  # Force CPU usage on Streamlit Cloud
