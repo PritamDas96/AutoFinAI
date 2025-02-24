@@ -214,11 +214,18 @@ device = "cpu"
 print(f"✅ Using device: {device}")
 
 # ✅ Load model without `device_map` (Fixes Accelerate Error)
+from transformers import BitsAndBytesConfig
+
+bnb_config = BitsAndBytesConfig(
+    load_in_8bit=True  # Enables 8-bit model loading
+)
+
 model = AutoModelForCausalLM.from_pretrained(
     model_name,
-    torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
-    low_cpu_mem_usage=False  # Avoids the Accelerate import error
+    quantization_config=bnb_config,
+    device_map="auto"
 ).to(device)
+
 
 def generate_response(prompt):
     """Generates AI response using TinyLlama."""
