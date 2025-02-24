@@ -205,14 +205,6 @@ index.add(np.array(vectors))
 # ✅ Step 3: Integrate TinyLlama for AI-Powered Financial Insights
 # ================================================
 
-# ✅ Load TinyLlama (No Approval Needed)
-model_name = "TheBloke/TinyMistral-248M-Chat-GGUF"
-
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-
-# ✅ Detect device properly
-device = "cpu"
-print(f"✅ Using device: {device}")
 
 # ✅ Load model without `device_map` (Fixes Accelerate Error)
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -220,25 +212,13 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-# Detect if GPU is available
-device = "cuda" if torch.cuda.is_available() else "cpu"
+device = "cpu"  # Streamlit Cloud only supports CPU
 
-# Load model correctly for CPU (No 8-bit quantization on CPU)
-if device == "cuda":
-    from transformers import BitsAndBytesConfig
-    
-    bnb_config = BitsAndBytesConfig(
-        load_in_8bit=True  # 8-bit quantization for GPU only
-    )
-    
-    model = AutoModelForCausalLM.from_pretrained(
-        model_name,
-        quantization_config=bnb_config,
-        device_map="auto"
-    ).to(device)
-else:
-    # Load model normally for CPU
-    model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
+# Load model with CPU optimization
+model = AutoModelForCausalLM.from_pretrained(
+    model_name,
+    trust_remote_code=True  # Fixes missing class errors
+).to(device)
 
 
 
