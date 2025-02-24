@@ -207,7 +207,8 @@ index.add(np.array(vectors))
 
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-model_name = "HuggingFaceH4/zephyr-3b"
+model_name = "microsoft/phi-2"
+
 
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
