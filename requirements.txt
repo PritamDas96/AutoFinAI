@@ -7,3 +7,5 @@ faiss-cpu
 numpy
 pandas
 yfinance
+sentence-transformers
+
